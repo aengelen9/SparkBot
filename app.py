@@ -39,19 +39,58 @@ def sparkhook():
             witClient = Wit(access_token=WIT_TOKEN) # Create Wit session
             witResp = witClient.message(sparkMessage) # Answer from Wit after sending message in Spark
 
-            
+            if witResp['entities'].get('greetings'):
+                greetingsConf = float(witResp['entities']['greetings'][0]['confidence'])
+                if greetingsCong > 0.85:
+                    flagHello = 1
+
             if witResp['entities'].get('email'):
-                emailAddress = str(witResp['entities']['email'][0]['value'])
                 emailConf = float(witResp['entities']['email'][0]['confidence'])
                 if emailConf > 0.85:
-                    botAnswer = api.messages.create(roomId=SPACE_ID, text=str(emailAddress))
-                #participantAdded = api.memberships.create(roomId=SPACE_ID, personEmail=str(emailAddress), isModerator=False)
+                    emailAddress = str(witResp['entities']['email'][0]['value'])
+                    flagEmail = 1
+                    #botAnswer = api.messages.create(roomId=SPACE_ID, text=str(emailAddress))
 
             if witResp['entities'].get('add_user_intent'):
-                addUserConf = str(witResp['entities']['add_user_intent'][0]['confidence'])
+                addUserConf = float(witResp['entities']['add_user_intent'][0]['confidence'])
+                if addUserConf > 0.85:
+                    flagAdd = 1
+                    
 
-            if witResp['entities'].get('greetings'):
-                greetingsConf = str(witResp['entities']['greetings'][0]['confidence'])
+            if witResp['entities'].get('remove_user_intent'):
+                removeUserConf = float(witResp['entities']['remove_user_intent'][0]['confidence'])
+                if removeUserConf > 0.85:
+                    flagRemove = 1
+
+            if (flagAdd == 1) and (flagEmail == 1):
+                participantAdded = api.memberships.create(roomId=SPACE_ID, personEmail=str(emailAddress), isModerator=False)
+                textAnswer = 'I have added <@personEmail:' + str(emailAddress) + '> to the space.'
+                botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
+                flagAdd = 0
+                flagEmail = 0
+
+            elif (flagRemove == 1) and (flagEmail == 1):
+                textAnswer = 'I will do you the honor of removing <@personEmail:' + str(emailAddress) + '> yourself.'
+                botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
+                flagRemove = 0
+                flagEmail = 0
+
+            elif (flagAdd == 1) or (flagRemove == 1):
+                textAnswer = 'I will need you to type an e-mail address.'
+                botAnswered = api.messages.create(roomId=SPACE_ID, text=textAnswer)
+
+            elif flagHello == 1:
+                textAnswer = 'Hello <@personEmail:' + str(jsonAnswer['data']['personEmail']) + '>'
+                botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
+                flagHello = 0
+
+            else:
+                textAnswer = 'I am sorry but I am not sure that I understand. I am really not that smart. I can only **add** or **remove** a participant from this space.'
+                botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
+
+
+
+
             
 
             #textAnswer = 'Hello <@personEmail:' + str(jsonAnswer['data']['personEmail']) + '>'
@@ -61,6 +100,8 @@ def sparkhook():
             #botAnswer = api.messages.create(roomId=SPACE_ID, text=sparkMessage)
             #botAnswer2 = api.messages.create(roomId=SPACE_ID, text=tryError)
             #botAnswer2 = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
+
+    return 'OK'
 
 if __name__ == '__main__':
     app.run()
