@@ -36,10 +36,10 @@ def sparkhook():
             sparkMessage = str(sparkMessage.text) # Get message text
             sparkMessage = sparkMessage.split(botFirstName,1)[1] #Remove bot's first name from message
 
-            #witClient = Wit(access_token=WIT_TOKEN) # Create Wit session
-            #witResp = witClient.message(sparkMessage) # Answer from Wit after sending message in Spark
+            witClient = Wit(access_token=WIT_TOKEN) # Create Wit session
+            witResp = witClient.message(sparkMessage) # Answer from Wit after sending message in Spark
 
-            '''
+            
             if witResp['entities'].get('email'):
                 emailAddress = str(witResp['entities']['email'][0]['value'])
                 botAnswer = api.messages.create(roomId=SPACE_ID, text=str(emailAddress))
@@ -52,14 +52,14 @@ def sparkhook():
 
             if witResp['entities'].get('greetings'):
                 greetingsConf = str(witResp['entities']['greetings'][0]['confidence'])
-            '''
+            
 
             #textAnswer = 'Hello <@personEmail:' + str(jsonAnswer['data']['personEmail']) + '>'
 
-            tryError = str(type(sparkMessage))
+            #tryError = str(type(sparkMessage))
 
-            botAnswer = api.messages.create(roomId=SPACE_ID, text=sparkMessage)
-            botAnswer2 = api.messages.create(roomId=SPACE_ID, text=tryError)
+            #botAnswer = api.messages.create(roomId=SPACE_ID, text=sparkMessage)
+            #botAnswer2 = api.messages.create(roomId=SPACE_ID, text=tryError)
             #botAnswer2 = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
 
 if __name__ == '__main__':
