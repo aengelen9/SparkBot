@@ -41,7 +41,7 @@ def sparkhook():
 
             if witResp['entities'].get('greetings'):
                 greetingsConf = float(witResp['entities']['greetings'][0]['confidence'])
-                if greetingsCong > 0.85:
+                if greetingsConf > 0.85:
                     flagHello = 1
 
             if witResp['entities'].get('email'):
