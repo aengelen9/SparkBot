@@ -38,6 +38,7 @@ def sparkhook():
             #witClient = Wit(access_token=WIT_TOKEN) # Create Wit session
             #witResp = witClient.message(sparkMessage) # Answer from Wit after sending message in Spark
 
+            '''
             if witResp['entities'].get('email'):
                 emailAddress = str(witResp['entities']['email'][0]['value'])
                 botAnswer = api.messages.create(roomId=SPACE_ID, text=str(emailAddress))
@@ -50,6 +51,7 @@ def sparkhook():
 
             if witResp['entities'].get('greetings'):
                 greetingsConf = str(witResp['entities']['greetings'][0]['confidence'])
+            '''
 
             #textAnswer = 'Hello <@personEmail:' + str(jsonAnswer['data']['personEmail']) + '>'
 
