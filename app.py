@@ -38,18 +38,18 @@ def sparkhook():
             witClient = Wit(access_token=WIT_TOKEN) # Create Wit session
             witResp = witClient.message(sparkMessage) # Answer from Wit after sending message in Spark
 
-            if data['entities'].get('email'):
-                emailAddress = str(data['entities']['email'][0]['value'])
+            if witResp['entities'].get('email'):
+                emailAddress = str(witResp['entities']['email'][0]['value'])
                 botAnswer = api.messages.create(roomId=SPACE_ID, text=str(emailAddress))
 
-            if data['entities'].get('add_user_intent'):
-                addUserConf = str(data['entities']['add_user_intent'][0]['confidence'])
+            if witResp['entities'].get('add_user_intent'):
+                addUserConf = str(witResp['entities']['add_user_intent'][0]['confidence'])
 
-            if data['entities'].get('remove_user_intent'):
-                removeUserConf = str(data['entities']['remove_user_intent'][0]['confidence'])
+            if witResp['entities'].get('remove_user_intent'):
+                removeUserConf = str(witResp['entities']['remove_user_intent'][0]['confidence'])
 
-            if data['entities'].get('greetings'):
-                greetingsConf = str(data['entities']['greetings'][0]['confidence'])
+            if witResp['entities'].get('greetings'):
+                greetingsConf = str(witResp['entities']['greetings'][0]['confidence'])
 
             #textAnswer = 'Hello <@personEmail:' + str(jsonAnswer['data']['personEmail']) + '>'
 
