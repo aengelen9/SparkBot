@@ -33,7 +33,7 @@ def sparkhook():
             botFirstName = botName.split(None, 1)[0] # Get bot's "first name"
 
             sparkMessage = api.messages.get(jsonAnswer['data']['id']) # Get message object text from message ID
-            sparkMessage = str(sparkMessage['text']) # Get message text
+            sparkMessage = str(sparkMessage.text) # Get message text
             sparkMessage = sparkMessage.split(botFirstName,1)[1] #Remove bot's first name from message
 
             #witClient = Wit(access_token=WIT_TOKEN) # Create Wit session
