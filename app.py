@@ -42,14 +42,13 @@ def sparkhook():
             
             if witResp['entities'].get('email'):
                 emailAddress = str(witResp['entities']['email'][0]['value'])
-                botAnswer = api.messages.create(roomId=SPACE_ID, text=str(emailAddress))
-                participantAdded = api.memberships.create(roomId=SPACE_ID, personEmail=str(emailAddress), isModerator=False)
+                emailConf = float(witResp['entities']['email'][0]['confidence'])
+                if emailConf > 0.85:
+                    botAnswer = api.messages.create(roomId=SPACE_ID, text=str(emailAddress))
+                #participantAdded = api.memberships.create(roomId=SPACE_ID, personEmail=str(emailAddress), isModerator=False)
 
             if witResp['entities'].get('add_user_intent'):
                 addUserConf = str(witResp['entities']['add_user_intent'][0]['confidence'])
-
-            if witResp['entities'].get('remove_user_intent'):
-                removeUserConf = str(witResp['entities']['remove_user_intent'][0]['confidence'])
 
             if witResp['entities'].get('greetings'):
                 greetingsConf = str(witResp['entities']['greetings'][0]['confidence'])
