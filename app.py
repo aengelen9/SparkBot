@@ -35,12 +35,12 @@ def sparkhook():
             sparkMessage = str(api.messages.get(jsonAnswer['data']['id']))
             sparkMessage = sparkMessage.split(botFirstName,1)[1] #Remove bot's first name from message
 
-            witClient = Wit(access_token="NXZNQT2BEKTEYCT2NHATEDVIKB3HAZTU")
-            witResp = witClient.message(sparkMessage)
+            #witClient = Wit(access_token="NXZNQT2BEKTEYCT2NHATEDVIKB3HAZTU")
+            #witResp = witClient.message(sparkMessage)
 
             textAnswer = 'Hello <@personEmail:' + str(jsonAnswer['data']['personEmail']) + '>'
 
-            botAnswer = api.messages.create(roomId=SPACE_ID, text=str(witResp))
+            #botAnswer = api.messages.create(roomId=SPACE_ID, text=str(witResp))
             botAnswer2 = api.messages.create(roomId=SPACE_ID, text=textAnswer)
 
 if __name__ == '__main__':
