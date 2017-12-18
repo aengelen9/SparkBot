@@ -35,7 +35,7 @@ def sparkhook():
             sparkMessage = str(api.messages.get(jsonAnswer['data']['id']))
             sparkMessage = sparkMessage.split(botFirstName,1)[1] #Remove bot's first name from message
 
-            witClient = Wit(access_token=WIT_TOKEN)
+            witClient = Wit(access_token="NXZNQT2BEKTEYCT2NHATEDVIKB3HAZTU")
             witResp = witClient.message(sparkMessage)
 
             textAnswer = 'Hello <@personEmail:' + str(jsonAnswer['data']['personEmail']) + '>'
