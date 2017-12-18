@@ -41,7 +41,7 @@ def sparkhook():
             textAnswer = 'Hello <@personEmail:' + str(jsonAnswer['data']['personEmail']) + '>'
 
             #botAnswer = api.messages.create(roomId=SPACE_ID, text=str(witResp))
-            botAnswer2 = api.messages.create(roomId=SPACE_ID, text=textAnswer)
+            botAnswer2 = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
 
 if __name__ == '__main__':
     app.run()
