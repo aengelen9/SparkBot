@@ -43,6 +43,8 @@ def sparkhook():
                 greetingsConf = float(witResp['entities']['greetings'][0]['confidence'])
                 if greetingsConf > 0.85:
                     flagHello = 1
+                else:
+                    flagHello = 0
             else:
                 flagHello = 0
 
@@ -50,6 +52,8 @@ def sparkhook():
                 addUserConf = float(witResp['entities']['add_user_intent'][0]['confidence'])
                 if addUserConf > 0.85:
                     flagAdd = 1
+                else:
+                    flagAdd = 0
             else:
                 flagAdd = 0
 
@@ -58,6 +62,8 @@ def sparkhook():
                 if emailConf > 0.85:
                     emailAddress = str(witResp['entities']['email'][0]['value'])
                     flagEmail = 1
+                else:
+                    flagEmail = 0
             else:
                 flagEmail = 0
 
@@ -66,6 +72,8 @@ def sparkhook():
                 removeUserConf = float(witResp['entities']['remove_user_intent'][0]['confidence'])
                 if removeUserConf > 0.85:
                     flagRemove = 1
+                else:
+                    flagRemove = 0
             else:
                 flagRemove = 0
 
@@ -79,7 +87,6 @@ def sparkhook():
             elif (flagRemove == 1) and (flagEmail == 1):
                 textAnswer = 'I will do you the honor of removing <@personEmail:' + str(emailAddress) + '> yourself.'
                 botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
-                
 
             elif flagAdd == 1:
                 textAnswer = 'I will need you to type an e-mail address.'
