@@ -39,9 +39,9 @@ def sparkhook():
             witClient = Wit(access_token=WIT_TOKEN) # Create Wit session
             witResp = witClient.message(sparkMessage) # Answer from Wit after sending message in Spark
 
-            if witResp['entities'].get('greetings'):
+            if witResp['entities'].get('greetings'): # If the entity "greetings" exist
                 greetingsConf = float(witResp['entities']['greetings'][0]['confidence'])
-                if greetingsConf > 0.85:
+                if greetingsConf > 0.85: # If we are confident that the user is greeting
                     flagHello = 1
                 else:
                     flagHello = 0
@@ -78,7 +78,7 @@ def sparkhook():
                 flagRemove = 0
 
 
-
+            # Answering logic
             if (flagAdd == 1) and (flagEmail == 1):
                 participantAdded = api.memberships.create(roomId=SPACE_ID, personEmail=str(emailAddress), isModerator=False)
                 textAnswer = 'I have added <@personEmail:' + str(emailAddress) + '> to the space.'
@@ -104,18 +104,6 @@ def sparkhook():
                 textAnswer = 'I am sorry but I am not sure that I understand. I am really not that smart. I can only **add** or **remove** a participant from this space.'
                 botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
 
-
-
-
-            
-
-            #textAnswer = 'Hello <@personEmail:' + str(jsonAnswer['data']['personEmail']) + '>'
-
-            #tryError = str(type(sparkMessage))
-
-            #botAnswer = api.messages.create(roomId=SPACE_ID, text=sparkMessage)
-            #botAnswer2 = api.messages.create(roomId=SPACE_ID, text=tryError)
-            #botAnswer2 = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
 
     return 'OK'
 
