@@ -1,14 +1,13 @@
 from flask import Flask, request
 from ciscosparkapi import CiscoSparkAPI
-from wit import Wit
 import json
+import requests
 
 app = Flask(__name__)
 
 
 BOT_TOKEN = 'OTEwNTA4MGMtYTQ0OS00NjRlLWFlMTgtYWM4YjMxN2Q5NTcyOWE3MWM5YjgtODU5'
 SPACE_ID = 'Y2lzY29zcGFyazovL3VzL1JPT00vYTJhZWI5NzAtZTRiNi0xMWU3LWI2MDQtZmRmZDEyNDAyM2E0'
-#WIT_TOKEN = 'NXZNQT2BEKTEYCT2NHATEDVIKB3HAZTU'
 
 api = CiscoSparkAPI(access_token=BOT_TOKEN)
 
@@ -37,7 +36,7 @@ def sparkhook():
             sparkMsgText = sparkMsgText.split(botFirstName,1)[1] #Remove bot's first name from message
             sparkMsgFiles = str(sparkMessage.files)
 
-            botAnswered = api.messages.create(roomId=SPACE_ID, text=sparkMsgFiles)
+            botAnswered = api.messages.create(roomId=SPACE_ID, text=sparkMsgFiles[0])
 
             # Answering logic
             '''
@@ -66,6 +65,17 @@ def sparkhook():
                 textAnswer = 'I am sorry but I am not sure that I understand. I am really not that smart. I can only **add** or **remove** a participant from this space.'
                 botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
             '''
+
+
+
+            '''
+            sparkHeader = {'Authorization': "Bearer " + BOT_TOKEN}
+            getResponse = requests.request("GET", "https://api.ciscospark.com/v1/people/me", headers=sparkHeader)
+            getResponse.text
+            getResponse.content
+            '''
+
+
 
     return 'OK'
 
