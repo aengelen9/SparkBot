@@ -34,9 +34,9 @@ def sparkhook():
             sparkMessage = api.messages.get(jsonAnswer['data']['id']) # Get message object text from message ID
             sparkMsgText = str(sparkMessage.text) # Get message text
             sparkMsgText = sparkMsgText.split(botFirstName,1)[1] #Remove bot's first name from message
-            sparkMsgFiles = str(sparkMessage.files)
+            sparkMsgFile = str(sparkMessage.files[0])
 
-            botAnswered = api.messages.create(roomId=SPACE_ID, text=sparkMsgFiles[0])
+            botAnswered = api.messages.create(roomId=SPACE_ID, text=sparkMsgFile)
 
             # Answering logic
             '''
