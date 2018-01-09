@@ -78,12 +78,19 @@ def sparkhook():
             #    botAnswered = api.messages.create(roomId=SPACE_ID, text=str(record))
 
 
-            with closing(requests.get(sparkMsgFileURL, headers=sparkHeader, stream=True)) as r:
-                reader = csv.reader(r.iter_lines(), delimiter=',', quotechar='"')
-                for row in reader:
-                    botAnswered = api.messages.create(roomId=SPACE_ID, text=str(row)) 
+            #with closing(requests.get(sparkMsgFileURL, headers=sparkHeader, stream=True)) as r:
+            #    reader = csv.reader(r.iter_lines(), delimiter=',', quotechar='"')
+            #    for row in reader:
+            #        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(row)) 
             
 
+            with requests.Session() as s:
+                download = s.get(sparkMsgFileURL, headers=sparkHeader)
+                decoded_content = download.content.decode('utf-8')
+                cr = csv.reader(decoded_content.splitlines(), delimiter=',')
+                my_list = list(cr)
+                for row in my_list:
+                    botAnswered = api.messages.create(roomId=SPACE_ID, text=str(row))
 
 
     return 'OK'
