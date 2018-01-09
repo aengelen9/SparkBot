@@ -15,7 +15,7 @@ api = CiscoSparkAPI(access_token=BOT_TOKEN)
 
 @app.route('/')
 def hello():
-    return "Hello World!"
+    return 'Hello World!'
 
 # Receive POST from Spark Space
 @app.route('/sparkhook', methods=['POST'])
@@ -35,10 +35,35 @@ def sparkhook():
             sparkMessage = api.messages.get(jsonAnswer['data']['id']) # Get message object text from message ID
             sparkMsgText = str(sparkMessage.text) # Get message text
             sparkMsgText = sparkMsgText.split(botFirstName,1)[1] #Remove bot's first name from message
-            sparkMsgFileURL = str(sparkMessage.files[0])
 
-            botAnswered = api.messages.create(roomId=SPACE_ID, text=sparkMsgFileURL)
-            botAnswered = api.messages.create(roomId=SPACE_ID, text="")
+            #botAnswered = api.messages.create(roomId=SPACE_ID, text=sparkMsgFileUrl)
+
+            if not sparkMessage.files:
+                textAnswer = 'Hello <@personEmail:' + str(jsonAnswer['data']['personEmail']) + '>, you can send me a CSV file including a list of e-mail addresses and I will add them to this space.'
+                botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
+
+            else:
+                sparkMsgFileUrl = str(sparkMessage.files[0])
+
+                sparkHeader = {'Authorization': "Bearer " + BOT_TOKEN}
+                i = 0 #Index to skip title row in the CSV file
+
+                with requests.Session() as s:
+                    getResponse = s.get(sparkMsgFileUrl, headers=sparkHeader)
+
+                    if str(getResponse.headers['Content-Type']) == 'text/csv':
+                        decodedContent = getResponse.content.decode('utf-8')
+                        csvFile = csv.reader(decodedContent.splitlines(), delimiter=';')
+                        listEmails = list(csvFile)
+                        for row in listEmails:
+                            if i != 0:
+                                botAnswered = api.messages.create(roomId=SPACE_ID, text=str(row[2]))
+                            i += 1
+
+                    else:
+                        textAnswer = 'Sorry, I do not understand files that are not **CSV**.'
+                        botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
+                        
 
             # Answering logic
             '''
@@ -68,14 +93,16 @@ def sparkhook():
                 botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
             '''
 
+
+            '''
             sparkHeader = {'Authorization': "Bearer " + BOT_TOKEN}
-            getResponse = requests.request("GET", sparkMsgFileURL, headers=sparkHeader)
+            getResponse = requests.request("GET", sparkMsgFileUrl, headers=sparkHeader)
             botAnswered = api.messages.create(roomId=SPACE_ID, text=str(getResponse.headers['Content-Type']))
 
             i = 0 #Index to skip title row in the CSV file
 
             with requests.Session() as s:
-                download = s.get(sparkMsgFileURL, headers=sparkHeader)
+                download = s.get(sparkMsgFileUrl, headers=sparkHeader)
                 decodedContent = download.content.decode('utf-8')
                 csvFile = csv.reader(decodedContent.splitlines(), delimiter=';')
                 listEmails = list(csvFile)
@@ -83,6 +110,7 @@ def sparkhook():
                     if i != 0:
                         botAnswered = api.messages.create(roomId=SPACE_ID, text=str(row[2]))
                     i += 1
+            '''
 
 
     return 'OK'
