@@ -57,11 +57,12 @@ def sparkhook():
                         listEmails = list(csvFile)
                         for row in listEmails:
                             if i != 0:
-                                botAnswered = api.messages.create(roomId=SPACE_ID, text=str(row[2]))
+                                #botAnswered = api.messages.create(roomId=SPACE_ID, text=str(row[2]))
+                                participantAdded = api.memberships.create(roomId=SPACE_ID, personEmail=str(row[2]), isModerator=False)
                             i += 1
 
                     else:
-                        textAnswer = 'Sorry, I do not understand files that are not **CSV**.'
+                        textAnswer = 'Sorry, I only understand **CSV** files.'
                         botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
                         
 
