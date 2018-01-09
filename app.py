@@ -3,7 +3,6 @@ from ciscosparkapi import CiscoSparkAPI
 import json
 import requests
 import csv
-from contextlib import closing
 
 app = Flask(__name__)
 
@@ -39,6 +38,7 @@ def sparkhook():
             sparkMsgFileURL = str(sparkMessage.files[0])
 
             botAnswered = api.messages.create(roomId=SPACE_ID, text=sparkMsgFileURL)
+            botAnswered = api.messages.create(roomId=SPACE_ID, text="")
 
             # Answering logic
             '''
@@ -71,18 +71,8 @@ def sparkhook():
             sparkHeader = {'Authorization': "Bearer " + BOT_TOKEN}
             getResponse = requests.request("GET", sparkMsgFileURL, headers=sparkHeader)
             botAnswered = api.messages.create(roomId=SPACE_ID, text=str(getResponse.headers['Content-Type']))
-           
-            #response = requests.get('http://example.test/foo.csv')
-            #reader = csv.DictReader(getResponse.iter_lines())
-            #for record in reader:
-            #    botAnswered = api.messages.create(roomId=SPACE_ID, text=str(record))
 
-
-            #with closing(requests.get(sparkMsgFileURL, headers=sparkHeader, stream=True)) as r:
-            #    reader = csv.reader(r.iter_lines(), delimiter=',', quotechar='"')
-            #    for row in reader:
-            #        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(row)) 
-            
+            i = 0 #Index to skip title row in the CSV file
 
             with requests.Session() as s:
                 download = s.get(sparkMsgFileURL, headers=sparkHeader)
@@ -90,8 +80,9 @@ def sparkhook():
                 csvFile = csv.reader(decodedContent.splitlines(), delimiter=';')
                 listEmails = list(csvFile)
                 for row in listEmails:
-                    #splitRow = row[0].split(',')
-                    botAnswered = api.messages.create(roomId=SPACE_ID, text=str(row[2]))
+                    if i != 0:
+                        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(row[2]))
+                    i += 1
 
 
     return 'OK'
