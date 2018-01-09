@@ -86,11 +86,11 @@ def sparkhook():
 
             with requests.Session() as s:
                 download = s.get(sparkMsgFileURL, headers=sparkHeader)
-                decoded_content = download.content.decode('utf-8')
-                cr = csv.reader(decoded_content.splitlines(), delimiter=',')
-                my_list = list(cr)
-                for row in my_list:
-                    botAnswered = api.messages.create(roomId=SPACE_ID, text=str(row))
+                decodedContent = download.content.decode('utf-8')
+                csvFile = csv.reader(decodedContent.splitlines(), delimiter=',')
+                listEmails = list(csvFile)
+                for row in listEmails:
+                    botAnswered = api.messages.create(roomId=SPACE_ID, text=str(row[2]))
 
 
     return 'OK'
