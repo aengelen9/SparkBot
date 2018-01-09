@@ -68,7 +68,13 @@ def sparkhook():
 
             sparkHeader = {'Authorization': "Bearer " + BOT_TOKEN}
             getResponse = requests.request("GET", sparkMsgFileURL, headers=sparkHeader)
-            botAnswered = api.messages.create(roomId=SPACE_ID, text=str(getResponse.headers['Content-Disposition']))
+            botAnswered = api.messages.create(roomId=SPACE_ID, text=str(getResponse.headers['Content-Type']))
+            '''
+            response = requests.get('http://example.test/foo.csv')
+            reader = csv.DictReader(response.iter_lines())
+            for record in reader:
+                print(record)
+            '''
 
 
 
