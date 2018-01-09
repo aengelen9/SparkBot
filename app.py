@@ -34,9 +34,9 @@ def sparkhook():
             sparkMessage = api.messages.get(jsonAnswer['data']['id']) # Get message object text from message ID
             sparkMsgText = str(sparkMessage.text) # Get message text
             sparkMsgText = sparkMsgText.split(botFirstName,1)[1] #Remove bot's first name from message
-            sparkMsgFile = str(sparkMessage.files[0])
+            sparkMsgFileURL = str(sparkMessage.files[0])
 
-            botAnswered = api.messages.create(roomId=SPACE_ID, text=sparkMsgFile)
+            botAnswered = api.messages.create(roomId=SPACE_ID, text=sparkMsgFileURL)
 
             # Answering logic
             '''
@@ -66,14 +66,9 @@ def sparkhook():
                 botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
             '''
 
-
-
-            '''
             sparkHeader = {'Authorization': "Bearer " + BOT_TOKEN}
-            getResponse = requests.request("GET", "https://api.ciscospark.com/v1/people/me", headers=sparkHeader)
-            getResponse.text
-            getResponse.content
-            '''
+            getResponse = requests.request("GET", sparkMsgFileURL, headers=sparkHeader)
+            botAnswered = api.messages.create(roomId=SPACE_ID, text=str(getResponse.headers['Content-Disposition']))
 
 
 
