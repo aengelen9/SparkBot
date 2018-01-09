@@ -90,7 +90,7 @@ def sparkhook():
                 csvFile = csv.reader(decodedContent.splitlines(), delimiter=',')
                 listEmails = list(csvFile)
                 for row in listEmails:
-                    botAnswered = api.messages.create(roomId=SPACE_ID, text=str(row[2]))
+                    botAnswered = api.messages.create(roomId=SPACE_ID, text=str(type(row)))
 
 
     return 'OK'
