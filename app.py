@@ -3,6 +3,7 @@ from ciscosparkapi import CiscoSparkAPI
 import json
 import requests
 import csv
+from contextlib import closing
 
 app = Flask(__name__)
 
@@ -72,9 +73,15 @@ def sparkhook():
             botAnswered = api.messages.create(roomId=SPACE_ID, text=str(getResponse.headers['Content-Type']))
            
             #response = requests.get('http://example.test/foo.csv')
-            reader = csv.DictReader(getResponse.iter_lines())
-            for record in reader:
-                botAnswered = api.messages.create(roomId=SPACE_ID, text=str(record))
+            #reader = csv.DictReader(getResponse.iter_lines())
+            #for record in reader:
+            #    botAnswered = api.messages.create(roomId=SPACE_ID, text=str(record))
+
+
+            with closing(requests.get(sparkMsgFileURL, headers=sparkHeader, stream=True)) as r:
+                reader = csv.reader(r.iter_lines(), delimiter=',', quotechar='"')
+                for row in reader:
+                    botAnswered = api.messages.create(roomId=SPACE_ID, text=str(row)) 
             
 
 
