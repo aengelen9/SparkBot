@@ -7,8 +7,8 @@ import csv
 app = Flask(__name__)
 
 
-BOT_TOKEN = 'OTEwNTA4MGMtYTQ0OS00NjRlLWFlMTgtYWM4YjMxN2Q5NTcyOWE3MWM5YjgtODU5'
-SPACE_ID = 'Y2lzY29zcGFyazovL3VzL1JPT00vYTJhZWI5NzAtZTRiNi0xMWU3LWI2MDQtZmRmZDEyNDAyM2E0'
+BOT_TOKEN = 'NWI0ZmVhZjktM2ZlMy00YWQ1LTgyYjYtMzEyZWQ2NGVhMTg0MWRmMTc0OWUtYWEy'
+SPACE_ID = 'Y2lzY29zcGFyazovL3VzL1JPT00vNzUzY2ZkYTAtZjVkNS0xMWU3LTgyZTUtMmRmOGYwZGY4ZWQw'
 
 api = CiscoSparkAPI(access_token=BOT_TOKEN)
 
@@ -57,61 +57,12 @@ def sparkhook():
                         listEmails = list(csvFile)
                         for row in listEmails:
                             if i != 0:
-                                #botAnswered = api.messages.create(roomId=SPACE_ID, text=str(row[2]))
                                 participantAdded = api.memberships.create(roomId=SPACE_ID, personEmail=str(row[2]), isModerator=False)
                             i += 1
 
                     else:
                         textAnswer = 'Sorry, I only understand **CSV** files.'
                         botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
-                        
-
-            # Answering logic
-            '''
-            if (flagAdd == 1) and (flagEmail == 1):
-                participantAdded = api.memberships.create(roomId=SPACE_ID, personEmail=str(emailAddress), isModerator=False)
-                textAnswer = 'I have added <@personEmail:' + str(emailAddress) + '> to the space.'
-                botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
-
-            elif (flagRemove == 1) and (flagEmail == 1):
-                textAnswer = 'I will do you the honor of removing <@personEmail:' + str(emailAddress) + '> yourself.'
-                botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
-
-            elif flagAdd == 1:
-                textAnswer = 'I will need you to type an e-mail address.'
-                botAnswered = api.messages.create(roomId=SPACE_ID, text=textAnswer)
-
-            elif flagRemove == 1:
-                textAnswer = 'I will do you the honor of removing the participant yourself.'
-                botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
-
-            elif flagHello == 1:
-                textAnswer = 'Hello <@personEmail:' + str(jsonAnswer['data']['personEmail']) + '>'
-                botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
-
-            else:
-                textAnswer = 'I am sorry but I am not sure that I understand. I am really not that smart. I can only **add** or **remove** a participant from this space.'
-                botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
-            '''
-
-
-            '''
-            sparkHeader = {'Authorization': "Bearer " + BOT_TOKEN}
-            getResponse = requests.request("GET", sparkMsgFileUrl, headers=sparkHeader)
-            botAnswered = api.messages.create(roomId=SPACE_ID, text=str(getResponse.headers['Content-Type']))
-
-            i = 0 #Index to skip title row in the CSV file
-
-            with requests.Session() as s:
-                download = s.get(sparkMsgFileUrl, headers=sparkHeader)
-                decodedContent = download.content.decode('utf-8')
-                csvFile = csv.reader(decodedContent.splitlines(), delimiter=';')
-                listEmails = list(csvFile)
-                for row in listEmails:
-                    if i != 0:
-                        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(row[2]))
-                    i += 1
-            '''
 
 
     return 'OK'
