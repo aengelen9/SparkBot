@@ -34,32 +34,34 @@ def sparkhook():
 
             sparkMessage = api.messages.get(jsonAnswer['data']['id']) # Get message object text from message ID
             sparkMsgText = str(sparkMessage.text) # Get message text
-            sparkMsgText = sparkMsgText.split(botFirstName,1)[1] #Remove bot's first name from message
+            sparkMsgText = sparkMsgText.split(botFirstName,1)[1] # Remove bot's first name from message
 
-            #botAnswered = api.messages.create(roomId=SPACE_ID, text=sparkMsgFileUrl)
-
+            # Say hello if the message doesn't contain a file
             if not sparkMessage.files:
                 textAnswer = 'Hello <@personEmail:' + str(jsonAnswer['data']['personEmail']) + '>, you can send me a CSV file including a list of e-mail addresses and I will add them to this space.'
                 botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
 
+            # If the message comes with a file
             else:
-                sparkMsgFileUrl = str(sparkMessage.files[0])
+                sparkMsgFileUrl = str(sparkMessage.files[0]) # Get the URL of the first file
 
                 sparkHeader = {'Authorization': "Bearer " + BOT_TOKEN}
-                i = 0 #Index to skip title row in the CSV file
+                i = 0 # Index to skip title row in the CSV file
 
-                with requests.Session() as s:
-                    getResponse = s.get(sparkMsgFileUrl, headers=sparkHeader)
+                with requests.Session() as s: # Creating a session to allow several HTTP messages with one TCP connection
+                    getResponse = s.get(sparkMsgFileUrl, headers=sparkHeader) # Get file
 
+                    # If the file extension is CSV
                     if str(getResponse.headers['Content-Type']) == 'text/csv':
                         decodedContent = getResponse.content.decode('utf-8')
                         csvFile = csv.reader(decodedContent.splitlines(), delimiter=';')
                         listEmails = list(csvFile)
-                        for row in listEmails:
+                        for row in listEmails: # Creating one list for each line in the file
                             if i != 0:
-                                participantAdded = api.memberships.create(roomId=SPACE_ID, personEmail=str(row[2]), isModerator=False)
+                                participantAdded = api.memberships.create(roomId=SPACE_ID, personEmail=str(row[2]), isModerator=False) # Add participant from e-mail field
                             i += 1
 
+                    # If the attached file is not a CSV
                     else:
                         textAnswer = 'Sorry, I only understand **CSV** files.'
                         botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
