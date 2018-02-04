@@ -97,13 +97,17 @@ def sparkhook():
                         decodedContent = getResponse.content.decode('utf-8')
                         csvFile = csv.reader(decodedContent.splitlines(), delimiter=',')
                         listEmails = list(csvFile)
+
+                        msgString = 'events set ' + EVENT_ID
+                        brokerBotMsg = postSparkMessage(BROKERBOT_ID, msgString)
+
                         for row in listEmails: # Creating one list for each line in the file
                             if i != 0:
                                 #participantAdded = api.memberships.create(roomId=SPACE_ID, personEmail=str(row[5]), isModerator=False) # Add participant from e-mail field
                                 botAnswered = api.messages.create(roomId=SPACE_ID, text=str(row[4]))
+                                msgString = 'pod assign ' + str(row[4])
+                                brokerBotMsg = postSparkMessage(BROKERBOT_ID, msgString)
                             i += 1
-                        msgString = 'events set ' + EVENT_ID
-                        brokerBotMsg = postSparkMessage(BROKERBOT_ID, msgString)
 
 
                     # If the attached file is not a CSV
