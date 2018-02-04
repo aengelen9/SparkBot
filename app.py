@@ -14,7 +14,44 @@ SPACE_ID = 'Y2lzY29zcGFyazovL3VzL1JPT00vZjUwNjZjZTAtZjYxMy0xMWU3LTkyYTgtYjNiNGFh
 BROKERBOT_ID = 'Y2lzY29zcGFyazovL3VzL1BFT1BMRS8zMWJlZTdjZi1mNTlmLTRlYjgtYmY5Ny1jZjkxOWYxMjRhZDY'
 EVENT_ID = 'JDJhJDEwJEFkZ1pQcks5Vkc0cUduNnUwaEoucGVMYmZRa3N3WFc2czYveEFoTXV0eEVwT0lmLkxGbIIO'
 
+
+
+import requests
+
+URL = 'https://api.ciscospark.com/v1/messages'
+ACCESS_TOKEN = '<your_access_token>'
+ROOM_ID = '<room_id>'
+MESSAGE_TEXT = '<message_text>'
+
+headers = {'Authorization': 'Bearer ' + ACCESS_TOKEN,
+           'Content-type': 'application/json;charset=utf-8'}
+post_data = {'roomId': ROOM_ID,
+             'text': MESSAGE_TEXT}
+response = requests.post(URL, json=post_data, headers=headers)
+if response.status_code == 200:
+    # Great your message was posted!
+    message_id = response.json['id']
+    message_text = response.json['text']
+    print("New message created, with ID:", message_id)
+    print(message_text)
+else:
+    # Oops something went wrong...  Better do something about it.
+    print(response.status_code, response.text)
+
 api = CiscoSparkAPI(access_token=BOT_TOKEN)
+
+
+def setSparkHeader():
+    sparkHeader = {'Authorization': "Bearer " + MY_TOKEN}
+    return sparkHeader
+    
+
+def postSparkMessage(personId, message):
+    message = {"toPersonId":personId,"text":message}
+    url = "https://api.ciscospark.com/v1/messages"
+    sparkHeader = setSparkHeader()
+    postResponse = requests.request("POST", url, data=message, headers=sparkHeader)
+    print("POST message: ", postResponse.json())
 
 
 @app.route('/')
@@ -65,9 +102,9 @@ def sparkhook():
                                 #participantAdded = api.memberships.create(roomId=SPACE_ID, personEmail=str(row[5]), isModerator=False) # Add participant from e-mail field
                                 botAnswered = api.messages.create(roomId=SPACE_ID, text=str(row[4]))
                             i += 1
-                        SPARK_ACCESS_TOKEN = MY_TOKEN
                         msgString = 'events set ' + EVENT_ID
-                        brokerBotMsg = api.messages.create(toPersonId=BROKERBOT_ID, text='') 
+                        brokerBotMsg = postSparkMessage(BROKERBOT_ID, msgString)
+
 
                     # If the attached file is not a CSV
                     else:
