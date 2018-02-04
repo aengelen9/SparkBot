@@ -11,6 +11,8 @@ app = Flask(__name__)
 BOT_TOKEN = 'OTc5OGY3YjEtM2I4OC00ZjhiLTg5YjMtYzU1NTdkOGM4NTViMTg0ZDYxYzMtOTRm'
 MY_TOKEN = 'Zjk5ODUzN2QtN2FlOS00ODQ0LWI0NTgtOWQ3MjY5MmU5ZmQ0NGZhNDY4ZTEtNTli'
 SPACE_ID = 'Y2lzY29zcGFyazovL3VzL1JPT00vZjUwNjZjZTAtZjYxMy0xMWU3LTkyYTgtYjNiNGFhZDUxNzIy'
+BROKERBOT_ID = 'Y2lzY29zcGFyazovL3VzL1BFT1BMRS8zMWJlZTdjZi1mNTlmLTRlYjgtYmY5Ny1jZjkxOWYxMjRhZDY'
+EVENT_ID = 'JDJhJDEwJEFkZ1pQcks5Vkc0cUduNnUwaEoucGVMYmZRa3N3WFc2czYveEFoTXV0eEVwT0lmLkxGbIIO'
 
 api = CiscoSparkAPI(access_token=BOT_TOKEN)
 
@@ -63,6 +65,9 @@ def sparkhook():
                                 #participantAdded = api.memberships.create(roomId=SPACE_ID, personEmail=str(row[5]), isModerator=False) # Add participant from e-mail field
                                 botAnswered = api.messages.create(roomId=SPACE_ID, text=str(row[4]))
                             i += 1
+                        SPARK_ACCESS_TOKEN = MY_TOKEN
+                        msgString = 'events set ' + EVENT_ID
+                        brokerBotMsg = api.messages.create(toPersonId=BROKERBOT_ID, text='') 
 
                     # If the attached file is not a CSV
                     else:
