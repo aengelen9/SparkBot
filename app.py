@@ -61,7 +61,7 @@ def sparkhook():
                         for row in listEmails: # Creating one list for each line in the file
                             if i != 0:
                                 #participantAdded = api.memberships.create(roomId=SPACE_ID, personEmail=str(row[5]), isModerator=False) # Add participant from e-mail field
-                                botAnswered = api.messages.create(roomId=SPACE_ID, text=str(row[5]))
+                                botAnswered = api.messages.create(roomId=SPACE_ID, text=str(row[4]))
                             i += 1
 
                     # If the attached file is not a CSV
