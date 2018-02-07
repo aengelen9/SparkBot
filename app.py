@@ -12,31 +12,8 @@ BOT_TOKEN = 'OTc5OGY3YjEtM2I4OC00ZjhiLTg5YjMtYzU1NTdkOGM4NTViMTg0ZDYxYzMtOTRm'
 MY_TOKEN = 'Zjk5ODUzN2QtN2FlOS00ODQ0LWI0NTgtOWQ3MjY5MmU5ZmQ0NGZhNDY4ZTEtNTli'
 SPACE_ID = 'Y2lzY29zcGFyazovL3VzL1JPT00vZjUwNjZjZTAtZjYxMy0xMWU3LTkyYTgtYjNiNGFhZDUxNzIy'
 BROKERBOT_ID = 'Y2lzY29zcGFyazovL3VzL1BFT1BMRS8zMWJlZTdjZi1mNTlmLTRlYjgtYmY5Ny1jZjkxOWYxMjRhZDY'
-EVENT_ID = 'JDJhJDEwJEFkZ1pQcks5Vkc0cUduNnUwaEoucGVMYmZRa3N3WFc2czYveEFoTXV0eEVwT0lmLkxGbIIO'
-
-
-
-import requests
-
-URL = 'https://api.ciscospark.com/v1/messages'
-ACCESS_TOKEN = '<your_access_token>'
-ROOM_ID = '<room_id>'
-MESSAGE_TEXT = '<message_text>'
-
-headers = {'Authorization': 'Bearer ' + ACCESS_TOKEN,
-           'Content-type': 'application/json;charset=utf-8'}
-post_data = {'roomId': ROOM_ID,
-             'text': MESSAGE_TEXT}
-response = requests.post(URL, json=post_data, headers=headers)
-if response.status_code == 200:
-    # Great your message was posted!
-    message_id = response.json['id']
-    message_text = response.json['text']
-    print("New message created, with ID:", message_id)
-    print(message_text)
-else:
-    # Oops something went wrong...  Better do something about it.
-    print(response.status_code, response.text)
+#EVENT_ID = 'JDJhJDEwJEFkZ1pQcks5Vkc0cUduNnUwaEoucGVMYmZRa3N3WFc2czYveEFoTXV0eEVwT0lmLkxGbIIO'
+EVENT_ID = 'JDJhJDEwJEhlTHg5U3JRRFIzNXFWZWVZUjk2UU84VGZLZktBTjQ1Nk0zN3BVamNSbkV5NmhWVjN2MFcu3'
 
 api = CiscoSparkAPI(access_token=BOT_TOKEN)
 
