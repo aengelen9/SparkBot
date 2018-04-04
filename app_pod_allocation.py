@@ -56,7 +56,7 @@ def sparkhook():
 
             # Say hello if the message doesn't contain a file
             if not sparkMessage.files:
-                textAnswer = 'Hello <@personEmail:' + str(jsonAnswer['data']['personEmail']) + '>, you can send me a picture of a MAC address.'
+                textAnswer = 'Hello <@personEmail:' + str(jsonAnswer['data']['personEmail']) + '>, you can send me a CSV file including a list of e-mail addresses and I will assign them a pod.'
                 botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
 
             # If the message comes with a file
@@ -64,25 +64,33 @@ def sparkhook():
                 sparkMsgFileUrl = str(sparkMessage.files[0]) # Get the URL of the first file
 
                 sparkHeader = {'Authorization': "Bearer " + BOT_TOKEN}
+                i = 0 # Index to skip title row in the CSV file
 
                 with requests.Session() as s: # Creating a session to allow several HTTP messages with one TCP connection
                     getResponse = s.get(sparkMsgFileUrl, headers=sparkHeader) # Get file
 
                     # If the file extension is CSV
-                    #if str(getResponse.headers['Content-Type']) == 'text/csv':
-                    #    decodedContent = getResponse.content.decode('utf-8')
-                    #    csvFile = csv.reader(decodedContent.splitlines(), delimiter=',')
-                    #    listEmails = list(csvFile)
+                    if str(getResponse.headers['Content-Type']) == 'text/csv':
+                        decodedContent = getResponse.content.decode('utf-8')
+                        csvFile = csv.reader(decodedContent.splitlines(), delimiter=',')
+                        listEmails = list(csvFile)
 
-                       
-                    botAnswered = api.messages.create(roomId=SPACE_ID, text=str(getResponse.headers['Content-Type']))
-                                
+                        msgString = 'events set ' + EVENT_ID
+                        brokerBotMsg = postSparkMessage(BROKERBOT_ID, msgString)
+
+                        for row in listEmails: # Creating one list for each line in the file
+                            if i != 0:
+                                #participantAdded = api.memberships.create(roomId=SPACE_ID, personEmail=str(row[5]), isModerator=False) # Add participant from e-mail field
+                                botAnswered = api.messages.create(roomId=SPACE_ID, text=str(row[4]))
+                                msgString = 'pod assign ' + str(row[4])
+                                brokerBotMsg = postSparkMessage(BROKERBOT_ID, msgString)
+                            i += 1
 
 
                     # If the attached file is not a CSV
-                    #else:
-                    #    textAnswer = 'Sorry, I only understand **CSV** files.'
-                    #    botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
+                    else:
+                        textAnswer = 'Sorry, I only understand **CSV** files.'
+                        botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
 
 
     return 'OK'
