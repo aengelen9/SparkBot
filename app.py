@@ -4,6 +4,10 @@ import json
 import requests
 import csv
 
+import io
+import pytesseract
+from PIL import Image
+
 app = Flask(__name__)
 
 
@@ -69,13 +73,16 @@ def sparkhook():
                     getResponse = s.get(sparkMsgFileUrl, headers=sparkHeader) # Get file
 
                     # If the file extension is CSV
-                    #if str(getResponse.headers['Content-Type']) == 'text/csv':
-                    #    decodedContent = getResponse.content.decode('utf-8')
-                    #    csvFile = csv.reader(decodedContent.splitlines(), delimiter=',')
-                    #    listEmails = list(csvFile)
+                    if str(getResponse.headers['Content-Type']) == 'image/jpeg':
+                        #decodedContent = getResponse.content.decode('utf-8')
+                        #csvFile = csv.reader(decodedContent.splitlines(), delimiter=',')
+                        #listEmails = list(csvFile)
+                        img = Image.open(io.BytesIO(getResponse.content))
+                        # print( type(img) ) # <class 'PIL.JpegImagePlugin.JpegImageFile'>
+                        imgText = pytesseract.image_to_string(img)
 
                        
-                    botAnswered = api.messages.create(roomId=SPACE_ID, text=str(getResponse.headers['Content-Type']))
+                        botAnswered = api.messages.create(roomId=SPACE_ID, text=imgText)
                                 
 
 
