@@ -86,7 +86,7 @@ def sparkhook():
                                 
 
 
-                    # If the attached file is not a CSV
+                    # If the attached file is not a CSV 
                     #else:
                     #    textAnswer = 'Sorry, I only understand **CSV** files.'
                     #    botAnswered = api.messages.create(roomId=SPACE_ID, markdown=textAnswer)
