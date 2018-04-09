@@ -13,7 +13,7 @@ from google.cloud.vision import types
 
 app = Flask(__name__)
 
-export GOOGLE_APPLICATION_CREDENTIALS="/cloudvisionkeyfile.json"
+export GOOGLE_APPLICATION_CREDENTIALS="./cloudvisionkeyfile.json"
 
 
 #BOT_TOKEN = 'OTc5OGY3YjEtM2I4OC00ZjhiLTg5YjMtYzU1NTdkOGM4NTViMTg0ZDYxYzMtOTRm'
