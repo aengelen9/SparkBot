@@ -115,7 +115,7 @@ def sparkhook():
                         #img = Image.open(io.BytesIO(getResponse.content))
                         encodedImg = base64.b64encode(getResponse.content)
 
-                        imgText = postGoogleOCR(encodedImg)
+                        #imgText = postGoogleOCR(encodedImg)
 
 
 
@@ -130,7 +130,7 @@ def sparkhook():
 
 
                        
-                        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(imgText))
+                        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(encodedImg))
                                 
 
 
