@@ -118,6 +118,7 @@ def sparkhook():
                         encodedImgUtf8 = encodedImg.decode('utf-8')
 
                         imgText = postGoogleOCR(encodedImgUtf8)
+                        imgText = imgText['responses'][0]['description']
 
 
 
