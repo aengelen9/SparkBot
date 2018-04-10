@@ -47,8 +47,7 @@ def postSparkMessage(personId, message):
 
 def postGoogleOCR(image):
     queryString = {"key":GOOGLE_TOKEN}
-    data = 
-    {
+    data = {
         "requests":[
             {
                 "image":{
