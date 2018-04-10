@@ -97,7 +97,7 @@ def sparkhook():
 
 
                        
-                        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(img))
+                        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(io.BytesIO(getResponse.content)))
                                 
 
 
