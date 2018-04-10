@@ -46,7 +46,7 @@ def postSparkMessage(personId, message):
     print("POST message: ", postResponse.json())
 
 def postGoogleOCR(image):
-    queryString = {"key":GOOGLE_TOKEN}
+    #queryString = {"key":GOOGLE_TOKEN}
     headers = {
         'Content-Type': "application/json"
     }
@@ -64,8 +64,9 @@ def postGoogleOCR(image):
             }
         ]
     }
-    url = "https://vision.googleapis.com/v1/images:annotate"
-    postResponse = requests.request("POST", url, data=data, headers=headers, params=queryString)
+    url = "https://vision.googleapis.com/v1/images:annotate?key="+ GOOGLE_TOKEN
+    #postResponse = requests.request("POST", url, data=data, headers=headers, params=queryString)
+    postResponse = requests.request("POST", url, data=data, headers=headers)
     postResponse = json.loads(postResponse.content)
     return postResponse
 
