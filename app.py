@@ -3,6 +3,7 @@ from ciscosparkapi import CiscoSparkAPI
 import json
 import requests
 import csv
+import base64
 
 import io
 #import pytesseract
@@ -87,6 +88,11 @@ def sparkhook():
                         #csvFile = csv.reader(decodedContent.splitlines(), delimiter=',')
                         #listEmails = list(csvFile)
                         img = Image.open(io.BytesIO(getResponse.content))
+                        img = base64.b64encode(img)
+
+
+
+
                         # print( type(img) ) # <class 'PIL.JpegImagePlugin.JpegImageFile'>
                         #imgText = pytesseract.image_to_string(img)
                          
@@ -97,7 +103,7 @@ def sparkhook():
 
 
                        
-                        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(io.BytesIO(getResponse.content)))
+                        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(img))
                                 
 
 

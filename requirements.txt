@@ -13,10 +13,6 @@ flask-heroku==0.1.9
 Flask-SocketIO==2.9.3
 Flask-SQLAlchemy==2.3.2
 future==0.16.0
-google-api-core==1.1.0
-google-auth==1.4.1
-google-cloud-vision==0.31.0
-googleapis-common-protos==1.5.3
 greenlet==0.4.13
 grpcio==1.10.1
 gunicorn==19.7.1
@@ -34,6 +30,7 @@ protobuf==3.5.2.post1
 psycopg2==2.7.4
 pyasn1==0.4.2
 pyasn1-modules==0.2.1
+pybase64==0.4.0
 pyparsing==2.2.0
 python-dateutil==2.6.1
 python-engineio==2.0.2
