@@ -54,7 +54,7 @@ def postGoogleOCR(image):
         "requests":[
             {
                 "image":{
-                    "content":image
+                    "content":str(image)
                 },
                 "features":[
                     {
