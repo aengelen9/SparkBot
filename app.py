@@ -124,6 +124,7 @@ def sparkhook():
                         p = re.compile('([0-9A-F]{2}[:-]){5}([0-9A-F]{2})|([0-9A-F]{12})', re.IGNORECASE)
 
                         macAddr = re.findall(p, imgText)
+                        macAddr = macAddr[0] if macAddr else ''
 
 
 
