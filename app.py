@@ -65,7 +65,7 @@ def postGoogleOCR(image):
         ]
     }
     url = "https://vision.googleapis.com/v1/images:annotate"
-    postResponse = requests.request("POST", url, data=data, params=queryString)
+    postResponse = requests.request("POST", url, data=data, headers=headers, params=queryString)
     postResponse = json.loads(postResponse.content)
     return postResponse
 
