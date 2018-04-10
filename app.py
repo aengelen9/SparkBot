@@ -54,7 +54,7 @@ def postGoogleOCR(image):
         "requests":[
             {
                 "image":{
-                    "content":str(image)
+                    "content":image
                 },
                 "features":[
                     {
@@ -66,7 +66,7 @@ def postGoogleOCR(image):
     }
     url = "https://vision.googleapis.com/v1/images:annotate?key="+ GOOGLE_TOKEN
     #postResponse = requests.request("POST", url, data=data, headers=headers, params=queryString)
-    postResponse = requests.request("POST", url, json=data, headers=headers)
+    postResponse = requests.request("POST", url, data=json.dumps(data), headers=headers)
     postResponse = json.loads(postResponse.content)
     return postResponse
 
@@ -115,8 +115,9 @@ def sparkhook():
                         #listEmails = list(csvFile)
                         #img = Image.open(io.BytesIO(getResponse.content))
                         encodedImg = base64.b64encode(getResponse.content)
+                        encodedImgUtf8 = encodedImg.decode('utf-8')
 
-                        imgText = postGoogleOCR(encodedImg)
+                        imgText = postGoogleOCR(encodedImgUtf8)
 
 
 
