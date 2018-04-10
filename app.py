@@ -87,8 +87,8 @@ def sparkhook():
                         #decodedContent = getResponse.content.decode('utf-8')
                         #csvFile = csv.reader(decodedContent.splitlines(), delimiter=',')
                         #listEmails = list(csvFile)
-                        img = Image.open(io.BytesIO(getResponse.content))
-                        img = base64.b64encode(img)
+                        #img = Image.open(io.BytesIO(getResponse.content))
+                        #img = base64.b64encode(img)
 
 
 
@@ -103,7 +103,7 @@ def sparkhook():
 
 
                        
-                        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(img))
+                        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(getResponse.content))
                                 
 
 
