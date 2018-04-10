@@ -47,6 +47,9 @@ def postSparkMessage(personId, message):
 
 def postGoogleOCR(image):
     queryString = {"key":GOOGLE_TOKEN}
+    headers = {
+        'Content-Type': "application/json"
+    }
     data = {
         "requests":[
             {
