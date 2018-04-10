@@ -110,7 +110,7 @@ def sparkhook():
                     getResponse = s.get(sparkMsgFileUrl, headers=sparkHeader) # Get file
 
                     # If the file extension is CSV
-                    if str(getResponse.headers['Content-Type']) == 'image/jpeg':
+                    if (str(getResponse.headers['Content-Type']) == 'image/jpeg') or (str(getResponse.headers['Content-Type']) == 'image/png'):
                         #decodedContent = getResponse.content.decode('utf-8')
                         #csvFile = csv.reader(decodedContent.splitlines(), delimiter=',')
                         #listEmails = list(csvFile)
