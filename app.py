@@ -4,6 +4,7 @@ import json
 import requests
 import csv
 import base64
+import re
 
 import io
 #import pytesseract
@@ -120,6 +121,10 @@ def sparkhook():
                         imgText = postGoogleOCR(encodedImgUtf8)
                         imgText = imgText['responses'][0]['textAnnotations'][0]['description']
 
+                        p = re.compile('([0-9A-F]{2}[:-]){5}([0-9A-F]{2})|([0-9A-F]{12})', re.IGNORECASE)
+
+                        macAddr = re.findall(p, imgText)
+
 
 
 
@@ -133,7 +138,7 @@ def sparkhook():
 
 
                        
-                        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(imgText))
+                        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(macAddr))
                                 
 
 
