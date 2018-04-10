@@ -25,6 +25,7 @@ SPACE_ID = 'Y2lzY29zcGFyazovL3VzL1JPT00vZjUwNjZjZTAtZjYxMy0xMWU3LTkyYTgtYjNiNGFh
 BROKERBOT_ID = 'Y2lzY29zcGFyazovL3VzL1BFT1BMRS8zMWJlZTdjZi1mNTlmLTRlYjgtYmY5Ny1jZjkxOWYxMjRhZDY'
 #EVENT_ID = 'JDJhJDEwJEFkZ1pQcks5Vkc0cUduNnUwaEoucGVMYmZRa3N3WFc2czYveEFoTXV0eEVwT0lmLkxGbIIO'
 EVENT_ID = 'JDJhJDEwJEhlTHg5U3JRRFIzNXFWZWVZUjk2UU84VGZLZktBTjQ1Nk0zN3BVamNSbkV5NmhWVjN2MFcu4'
+GOOGLE_TOKEN = 'AIzaSyB2pRywaLOUcO2ddwlTNJAUmanxByZvvKc'
 
 api = CiscoSparkAPI(access_token=BOT_TOKEN)
 
@@ -43,6 +44,28 @@ def postSparkMessage(personId, message):
     sparkHeader = setSparkHeader()
     postResponse = requests.request("POST", url, data=message, headers=sparkHeader)
     print("POST message: ", postResponse.json())
+
+def postGoogleOCR(image):
+    queryString = {"key":GOOGLE_TOKEN}
+    data = 
+    {
+        "requests":[
+            {
+                "image":{
+                    "content":image
+                },
+                "features":[
+                    {
+                        "type":"TEXT_DETECTION"
+                    }
+                ]
+            }
+        ]
+    }
+    url = "https://vision.googleapis.com/v1/images:annotate"
+    postResponse = requests.request("POST", url, data=data, params=queryString)
+    postResponse = json.loads(postResponse.content)
+    return postResponse
 
 
 @app.route('/')
@@ -90,6 +113,8 @@ def sparkhook():
                         #img = Image.open(io.BytesIO(getResponse.content))
                         encodedImg = base64.b64encode(getResponse.content)
 
+                        imgText = postGoogleOCR(encodedImg)
+
 
 
 
@@ -103,7 +128,7 @@ def sparkhook():
 
 
                        
-                        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(type(encodedImg)))
+                        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(imgText))
                                 
 
 
