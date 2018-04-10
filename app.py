@@ -103,7 +103,7 @@ def sparkhook():
 
 
                        
-                        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(getResponse.content))
+                        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(type(getResponse.content)))
                                 
 
 
