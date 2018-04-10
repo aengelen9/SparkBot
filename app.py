@@ -8,12 +8,13 @@ import io
 #import pytesseract
 from PIL import Image
 # Imports the Google Cloud client library
-from google.cloud import vision
-from google.cloud.vision import types
+#from google.cloud import vision
+#from google.cloud.vision import types
 
 app = Flask(__name__)
 
-export GOOGLE_APPLICATION_CREDENTIALS="./cloudvisionkeyfile.json"
+#export GOOGLE_APPLICATION_CREDENTIALS="./cloudvisionkeyfile.json"
+#os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./cloudvisionkeyfile.json"
 
 
 #BOT_TOKEN = 'OTc5OGY3YjEtM2I4OC00ZjhiLTg5YjMtYzU1NTdkOGM4NTViMTg0ZDYxYzMtOTRm'
@@ -27,7 +28,7 @@ EVENT_ID = 'JDJhJDEwJEhlTHg5U3JRRFIzNXFWZWVZUjk2UU84VGZLZktBTjQ1Nk0zN3BVamNSbkV5
 api = CiscoSparkAPI(access_token=BOT_TOKEN)
 
 # Instantiates a client
-client = vision.ImageAnnotatorClient()
+#client = vision.ImageAnnotatorClient()
 
 
 def setSparkHeader():
@@ -89,14 +90,14 @@ def sparkhook():
                         # print( type(img) ) # <class 'PIL.JpegImagePlugin.JpegImageFile'>
                         #imgText = pytesseract.image_to_string(img)
                          
-                        image = types.Image(content=img)
+                        #image = types.Image(content=img)
 
-                        response = client.text_detection(image=image)
-                        text = response.text_annotations
+                        #response = client.text_detection(image=image)
+                        #text = response.text_annotations
 
 
                        
-                        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(text))
+                        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(img))
                                 
 
 
