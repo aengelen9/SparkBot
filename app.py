@@ -140,7 +140,7 @@ def sparkhook():
 
 
                        
-                        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(macAddr))
+                        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(imgText))
                                 
 
 
