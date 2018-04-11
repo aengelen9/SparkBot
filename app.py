@@ -125,7 +125,8 @@ def sparkhook():
                         #p = re.compile('(([0-9A-F]{2}[:-]?){5}([0-9A-F]{2}))', re.IGNORECASE)
 
                         macAddr = re.findall(p, imgText)
-                        macAddr = macAddr[0][0] if macAddr else ''
+                        macAddr = macAddr[0][0] if macAddr else '' #Take first match
+                        macAddr = re.sub('\W+', '', macAddr) #Remove special characters
 
 
 
@@ -140,7 +141,7 @@ def sparkhook():
 
 
                        
-                        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(imgText))
+                        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(macAddr))
                                 
 
 
