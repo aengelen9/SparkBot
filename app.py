@@ -127,6 +127,9 @@ def sparkhook():
                         macAddr = re.findall(p, imgText)
                         macAddr = macAddr[0][0] if macAddr else '' #Take first match
                         macAddr = re.sub('\W+', '', macAddr) #Remove special characters
+                        macAddr = macAddr.lower() #Lowercase
+                        macAddr = re.findall('..', macAddr) #Split in groups of two characters
+                        macAddr = ':'.join(map(str, macAddr)) #Add colons
 
 
 
