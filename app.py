@@ -137,6 +137,27 @@ def sparkhook():
                         host = dnac.getHost(cookie, macAddr)
 
                         hostIp = host[0]['hostIp']
+                        hostVlanId = host[0]['vlanId']
+                        hostType = host[0]['hostType']
+                        hostSubType = host[0]['subType']
+                        connectedNetworkDeviceId = host[0]['connectedNetworkDeviceId']
+                        connectedNetworkDeviceIpAddress = host[0]['connectedNetworkDeviceIpAddress']
+                        connectedInterfaceName = host[0]['connectedInterfaceName']
+                        
+                        connectedDevice = dnac.get_nw_device_by_id(cookie, connectedNetworkDeviceId)
+
+                        deviceType = connectedDevice['type'] #Cisco Catalyst 9300 Switch
+                        deviceReachability = connectedDevice['reachabilityStatus']
+
+                        answerString = 'Searching for host MAC address *' + macAddr + '*\n\n- Host IP: ' + hostIp
+                        answerString = answerString + '\n- Host Type: ' + hostType
+                        answerString = answerString + '\n- Host Subtype: ' + hostSubType
+                        answerString = answerString + '\n- Connected Network Device: ' + deviceType
+                        answerString = answerString + '\n- Connected Network Device IP: ' + connectedNetworkDeviceIpAddress
+                        answerString = answerString + '\n- Interface: ' + connectedInterfaceName
+                        answerString = answerString + '\n- VLAN ID: ' + hostVlanId
+                        answerString = answerString + '\n- Connected Network Device Reachability: ' + deviceReachability
+
 
 
 
@@ -151,7 +172,7 @@ def sparkhook():
 
 
                        
-                        botAnswered = api.messages.create(roomId=SPACE_ID, text=hostIp)
+                        botAnswered = api.messages.create(roomId=SPACE_ID, markdown=answerString)
                                 
 
 
