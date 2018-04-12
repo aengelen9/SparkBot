@@ -3,7 +3,7 @@ import json
 
 cookie = dnac.login()
 hosts = dnac.get_hosts(cookie)
-macAddr = ['c8:4c:75:68:b2:c0']
+macAddr = ['c8:4c:75:68:b2:c1']
 
 host = dnac.getHost(cookie, macAddr)
 switch = dnac.get_nw_device_by_id(cookie, '6d3eaa5d-bb39-4cc4-8881-4a2b2668d2dc')
@@ -13,7 +13,7 @@ macAddr2 = ['c8', '4c', '75', '68', 'b2', 'c0']
 makeitastring = ':'.join(map(str, macAddr2))
 
 
-#pretty = json.dumps(lineCard, indent=4, sort_keys=True)
+pretty = json.dumps(host, indent=4, sort_keys=True)
 
-#print (pretty)
-print (makeitastring)
+print (pretty)
+#print (makeitastring)

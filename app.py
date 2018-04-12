@@ -6,6 +6,8 @@ import csv
 import base64
 import re
 
+import dnac #DNA-C functions
+
 import io
 #import pytesseract
 from PIL import Image
@@ -131,6 +133,11 @@ def sparkhook():
                         macAddr = re.findall('..', macAddr) #Split in groups of two characters
                         macAddr = ':'.join(map(str, macAddr)) #Add colons
 
+                        cookie = dnac.login()
+                        host = dnac.getHost(cookie, macAddr)
+
+                        hostIp = host[0]['hostIp']
+
 
 
 
@@ -144,7 +151,7 @@ def sparkhook():
 
 
                        
-                        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(macAddr))
+                        botAnswered = api.messages.create(roomId=SPACE_ID, text=hostIp)
                                 
 
 
