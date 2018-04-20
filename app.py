@@ -6,7 +6,7 @@ import csv
 import base64
 import re
 
-import dnac #DNA-C functions
+import dnac #DNA-C functions 
 
 import io
 #import pytesseract
@@ -149,7 +149,7 @@ def sparkhook():
                         deviceType = connectedDevice['type'] #Cisco Catalyst 9300 Switch
                         deviceReachability = connectedDevice['reachabilityStatus']
 
-                        answerString = 'Searching for host MAC address *' + macAddr + '*\n\n- Host IP: ' + hostIp
+                        answerString = 'Searching for host MAC address **' + macAddr + '**\n\n- Host IP: ' + hostIp
                         answerString = answerString + '\n- Host Type: ' + hostType
                         answerString = answerString + '\n- Host Subtype: ' + hostSubType
                         answerString = answerString + '\n- Connected Network Device: ' + deviceType

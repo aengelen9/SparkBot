@@ -1,6 +1,8 @@
 import dnac
 import json
 
+import state_test
+
 cookie = dnac.login()
 hosts = dnac.get_hosts(cookie)
 macAddr = ['c8:4c:75:68:b2:c1']
@@ -15,5 +17,11 @@ makeitastring = ':'.join(map(str, macAddr2))
 
 pretty = json.dumps(host, indent=4, sort_keys=True)
 
-print (pretty)
+#print (pretty)
 #print (makeitastring)
+
+batman = state_test.NarcolepticSuperhero("Batman")
+
+
+batman.wake_up()
+print (batman.state)
