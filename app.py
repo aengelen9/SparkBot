@@ -29,6 +29,8 @@ BROKERBOT_ID = 'Y2lzY29zcGFyazovL3VzL1BFT1BMRS8zMWJlZTdjZi1mNTlmLTRlYjgtYmY5Ny1j
 #EVENT_ID = 'JDJhJDEwJEFkZ1pQcks5Vkc0cUduNnUwaEoucGVMYmZRa3N3WFc2czYveEFoTXV0eEVwT0lmLkxGbIIO'
 EVENT_ID = 'JDJhJDEwJEhlTHg5U3JRRFIzNXFWZWVZUjk2UU84VGZLZktBTjQ1Nk0zN3BVamNSbkV5NmhWVjN2MFcu4'
 GOOGLE_TOKEN = 'AIzaSyB2pRywaLOUcO2ddwlTNJAUmanxByZvvKc'
+TEAMLEADER_CLIENT_ID = '13b005961e1632778a807dd6d08c5c8d'
+TEAMLEADER_REDIRECT_URI = 'https://csvsparkbot.herokuapp.com/teamleader/callback'
 
 api = CiscoSparkAPI(access_token=BOT_TOKEN)
 
@@ -73,10 +75,31 @@ def postGoogleOCR(image):
     postResponse = json.loads(postResponse.content)
     return postResponse
 
+def getTeamLeaderLoginPage():
+    header = {'client_id': TEAMLEADER_CLIENT_ID, 'response_type': 'code', 'redirect_uri': TEAMLEADER_REDIRECT_URI}
+    url = 'https://app.teamleader.eu/oauth2/authorize'
+    getResponse = requests.request("GET", url, headers=header)
+    getResponse = json.loads(getResponse.content)
+    return str(getResponse["text"])
+
 
 @app.route('/')
 def hello():
     return 'Hello World!'
+
+@app.route('/teamleader')
+def oauth():
+    loginPage = getTeamLeaderLoginPage()
+    return 'Teamleader OAuth flow'
+
+@app.route('/teamleader/callback', methods=['POST'])
+def sparkhook():
+
+    if request.method == 'POST':
+
+        jsonAnswer = json.loads(request.data)
+        botAnswered = api.messages.create(roomId=SPACE_ID, text=str(jsonAnswer))
+
 
 # Receive POST from Spark Space
 @app.route('/sparkhook', methods=['POST'])
