@@ -93,7 +93,7 @@ def oauth():
     return 'Teamleader OAuth flow'
 
 @app.route('/teamleader/callback', methods=['POST'])
-def sparkhook():
+def teamleaderCallback():
 
     if request.method == 'POST':
 
