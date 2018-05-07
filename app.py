@@ -79,8 +79,9 @@ def getTeamLeaderLoginPage():
     header = {'client_id': TEAMLEADER_CLIENT_ID, 'response_type': 'code', 'redirect_uri': TEAMLEADER_REDIRECT_URI}
     url = 'https://app.teamleader.eu/oauth2/authorize'
     getResponse = requests.request("GET", url, headers=header)
-    getResponse = json.loads(getResponse.content)
-    return str(getResponse["text"])
+    #getResponse = json.loads(getResponse.content)
+    #return str(getResponse["text"])
+    return getResponse.content
 
 
 @app.route('/')
@@ -90,7 +91,7 @@ def hello():
 @app.route('/teamleader')
 def oauth():
     loginPage = getTeamLeaderLoginPage()
-    return 'Teamleader OAuth flow'
+    return loginPage
 
 @app.route('/teamleader/callback', methods=['POST'])
 def teamleaderCallback():
