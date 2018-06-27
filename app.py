@@ -150,37 +150,42 @@ def sparkhook():
                         p = re.compile('((([0-9A-F]{2}[:-]){5}([0-9A-F]{2}))|([0-9A-F]{12}))', re.IGNORECASE)
                         #p = re.compile('(([0-9A-F]{2}[:-]?){5}([0-9A-F]{2}))', re.IGNORECASE)
 
-                        macAddr = re.findall(p, imgText)
-                        macAddr = macAddr[0][0] if macAddr else '' #Take first match
-                        macAddr = re.sub('\W+', '', macAddr) #Remove special characters
-                        macAddr = macAddr.lower() #Lowercase
-                        macAddr = re.findall('..', macAddr) #Split in groups of two characters
-                        macAddr = ':'.join(map(str, macAddr)) #Add colons
+                        if imgText == '':
+                            answerString = 'No MAC address found.'
+                            botAnswered = api.messages.create(roomId=SPACE_ID, markdown=answerString)
+                        else:
 
-                        cookie = dnac.login()
-                        host = dnac.getHost(cookie, macAddr)
+                            macAddr = re.findall(p, imgText)
+                            macAddr = macAddr[0][0] if macAddr else '' #Take first match
+                            macAddr = re.sub('\W+', '', macAddr) #Remove special characters
+                            macAddr = macAddr.lower() #Lowercase
+                            macAddr = re.findall('..', macAddr) #Split in groups of two characters
+                            macAddr = ':'.join(map(str, macAddr)) #Add colons
 
-                        hostIp = host[0]['hostIp']
-                        hostVlanId = host[0]['vlanId']
-                        hostType = host[0]['hostType']
-                        hostSubType = host[0]['subType']
-                        connectedNetworkDeviceId = host[0]['connectedNetworkDeviceId']
-                        connectedNetworkDeviceIpAddress = host[0]['connectedNetworkDeviceIpAddress']
-                        connectedInterfaceName = host[0]['connectedInterfaceName']
+                            cookie = dnac.login()
+                            host = dnac.getHost(cookie, macAddr)
+
+                            hostIp = host[0]['hostIp']
+                            hostVlanId = host[0]['vlanId']
+                            hostType = host[0]['hostType']
+                            hostSubType = host[0]['subType']
+                            connectedNetworkDeviceId = host[0]['connectedNetworkDeviceId']
+                            connectedNetworkDeviceIpAddress = host[0]['connectedNetworkDeviceIpAddress']
+                            connectedInterfaceName = host[0]['connectedInterfaceName']
                         
-                        connectedDevice = dnac.get_nw_device_by_id(cookie, connectedNetworkDeviceId)
+                            connectedDevice = dnac.get_nw_device_by_id(cookie, connectedNetworkDeviceId)
 
-                        deviceType = connectedDevice['type'] #Cisco Catalyst 9300 Switch
-                        deviceReachability = connectedDevice['reachabilityStatus']
+                            deviceType = connectedDevice['type'] #Cisco Catalyst 9300 Switch
+                            deviceReachability = connectedDevice['reachabilityStatus']
 
-                        answerString = 'Searching for host MAC address **' + macAddr + '**\n\n- Host IP: ' + hostIp
-                        answerString = answerString + '\n- Host Type: ' + hostType
-                        answerString = answerString + '\n- Host Subtype: ' + hostSubType
-                        answerString = answerString + '\n- Connected Network Device: ' + deviceType
-                        answerString = answerString + '\n- Connected Network Device IP: ' + connectedNetworkDeviceIpAddress
-                        answerString = answerString + '\n- Interface: ' + connectedInterfaceName
-                        answerString = answerString + '\n- VLAN ID: ' + hostVlanId
-                        answerString = answerString + '\n- Connected Network Device Reachability: ' + deviceReachability
+                            answerString = 'Searching for host MAC address **' + macAddr + '**\n\n- Host IP: ' + hostIp
+                            answerString = answerString + '\n- Host Type: ' + hostType
+                            answerString = answerString + '\n- Host Subtype: ' + hostSubType
+                            answerString = answerString + '\n- Connected Network Device: ' + deviceType
+                            answerString = answerString + '\n- Connected Network Device IP: ' + connectedNetworkDeviceIpAddress
+                            answerString = answerString + '\n- Interface: ' + connectedInterfaceName
+                            answerString = answerString + '\n- VLAN ID: ' + hostVlanId
+                            answerString = answerString + '\n- Connected Network Device Reachability: ' + deviceReachability
 
 
 
@@ -195,8 +200,8 @@ def sparkhook():
                         #text = response.text_annotations
 
 
-                       
-                        botAnswered = api.messages.create(roomId=SPACE_ID, markdown=answerString)
+                          
+                            botAnswered = api.messages.create(roomId=SPACE_ID, markdown=answerString)
                                 
 
 
