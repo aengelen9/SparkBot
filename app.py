@@ -206,7 +206,7 @@ def sparkhook():
 
 
 
-                        # print( type(img) ) # <class 'PIL.JpegImagePlugin.JpegImageFile'>
+                        # print( type(img) ) # <class 'PIL.JpegImagePlugin.JpegImageFile'> 
                         #imgText = pytesseract.image_to_string(img)
 
                         #image = types.Image(content=img)
