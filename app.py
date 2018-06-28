@@ -189,12 +189,13 @@ def sparkhook():
                             clientTime = dnac.getClientTime(cookie)
                             #botAnswered = api.messages.create(roomId=SPACE_ID, markdown=str(clientTime))
                             clientHealth = dnac.getClientHealth(cookie, macAddr, clientTime)
-                            #botAnswered = api.messages.create(roomId=SPACE_ID, markdown=str(clientHealth['location']))
+                            #botAnswered = api.messages.create(roomId=SPACE_ID, markdown=str(clientHealth['location'])) issueCount
 
                             answerString = 'Searching for host MAC address **' + macAddr + '**\n\n- Host IP: ' + hostIp
                             answerString = answerString + '\n- Host Type: ' + hostType
                             answerString = answerString + '\n- Host Subtype: ' + hostSubType
-                            answerString = answerString + '\n- Host Health Score: ' + clientHealth['healthScore'][0]['score']
+                            answerString = answerString + '\n- Host Health Score: ' + str(clientHealth['healthScore'][0]['score'])
+                            answerString = answerString + '\n- Issue Count: ' + str(clientHealth['issueCount'])
                             answerString = answerString + '\n- Connected Network Device: ' + deviceType
                             answerString = answerString + '\n- Connected Network Device IP: ' + connectedNetworkDeviceIpAddress
                             answerString = answerString + '\n- Interface: ' + connectedInterfaceName
