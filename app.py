@@ -150,21 +150,17 @@ def sparkhook():
                             answerString = 'No MAC address found.'
                             botAnswered = api.messages.create(roomId=SPACE_ID, markdown=answerString)
 
-                        imgText = imgText['responses'][0]['textAnnotations'][0]['description']
-
-                        p = re.compile('((([0-9A-F]{2}[:-]){5}([0-9A-F]{2}))|([0-9A-F]{12}))', re.IGNORECASE)
-                        #p = re.compile('(([0-9A-F]{2}[:-]?){5}([0-9A-F]{2}))', re.IGNORECASE)
-
-                        #botAnswered = api.messages.create(roomId=SPACE_ID, markdown=imgText)
-                        macAddr = re.findall(p, imgText)
-                        botAnswered = api.messages.create(roomId=SPACE_ID, markdown=str(type(imgText)))
-                        botAnswered = api.messages.create(roomId=SPACE_ID, markdown=str(timgText))
-
-
-                        if not macAddr:
-                            answerString = 'No MAC address found.'
-                            botAnswered = api.messages.create(roomId=SPACE_ID, markdown=answerString)
                         else:
+
+                            imgText = imgText['responses'][0]['textAnnotations'][0]['description']
+
+                            p = re.compile('((([0-9A-F]{2}[:-]){5}([0-9A-F]{2}))|([0-9A-F]{12}))', re.IGNORECASE)
+                            #p = re.compile('(([0-9A-F]{2}[:-]?){5}([0-9A-F]{2}))', re.IGNORECASE)
+
+                            #botAnswered = api.messages.create(roomId=SPACE_ID, markdown=imgText)
+                            macAddr = re.findall(p, imgText)
+                            botAnswered = api.messages.create(roomId=SPACE_ID, markdown=str(type(macAddr)))
+                            botAnswered = api.messages.create(roomId=SPACE_ID, markdown=str(macAddr))
 
 
                             macAddr = macAddr[0][0] if macAddr else '' #Take first match
@@ -188,6 +184,9 @@ def sparkhook():
 
                             deviceType = connectedDevice['type'] #Cisco Catalyst 9300 Switch
                             deviceReachability = connectedDevice['reachabilityStatus']
+
+                            clientTime = dnac.getClientTime(cookie)
+                            botAnswered = api.messages.create(roomId=SPACE_ID, markdown=str(clientTime))
 
                             answerString = 'Searching for host MAC address **' + macAddr + '**\n\n- Host IP: ' + hostIp
                             answerString = answerString + '\n- Host Type: ' + hostType

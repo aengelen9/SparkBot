@@ -22,7 +22,7 @@ DNAC_AUTH = HTTPBasicAuth(USER, PASSWORD)
 def login():
     '''
     Performs a login to DNA Center
-    '''    
+    '''
     requrl = URL + '/api/system/v1/auth/login'
     header = {'content-type': 'application/json'}
     response = requests.get(requrl, auth=DNAC_AUTH, headers=header, verify=False)
@@ -34,7 +34,7 @@ def login():
 def get_network_devices(cookie):
     '''
     Gets a list of all network devices managed by DNA Center
-    '''   
+    '''
     requrl = URL + '/api/v1/network-device'
     header = {'content-type': 'application/json', 'Cookie': cookie}
     response = requests.get(requrl, headers=header, verify=False)
@@ -44,7 +44,7 @@ def get_network_devices(cookie):
 def get_nw_device_by_id(cookie, id):
     '''
     Gets a list of all network devices managed by DNA Center
-    '''   
+    '''
     requrl = URL + '/api/v1/network-device/' + id
     header = {'content-type': 'application/json', 'Cookie': cookie}
     response = requests.get(requrl, headers=header, verify=False)
@@ -54,7 +54,7 @@ def get_nw_device_by_id(cookie, id):
 def get_hosts(cookie):
     '''
     Gets a list of all hosts monitored by DNA Center
-    '''   
+    '''
     requrl = URL + '/api/v1/host'
     header = {'content-type': 'application/json', 'Cookie': cookie}
     response = requests.get(requrl, headers=header, verify=False)
@@ -64,7 +64,7 @@ def get_hosts(cookie):
 def getHost(cookie, macAddr):
     '''
     Gets host with MAC address
-    '''   
+    '''
     requrl = URL + '/api/v1/host'
     header = {'content-type': 'application/json', 'Cookie': cookie}
     filtr = {"hostMac":macAddr}
@@ -75,12 +75,19 @@ def getHost(cookie, macAddr):
 def getModule(cookie, id):
     '''
     Gets a list of all network devices managed by DNA Center
-    '''   
+    '''
     requrl = URL + '/api/v1/network-device/module/' + id
     header = {'content-type': 'application/json', 'Cookie': cookie}
     response = requests.get(requrl, headers=header, verify=False)
     device_info = response.json()
     return device_info['response']
 
-
-
+def getClientTime(cookie):
+    '''
+    Get Client Time
+    '''
+    requrl = URL + '/api/assurance/v1/time'
+    header = {'content-type': 'application/json', 'Cookie': cookie}
+    response = requests.get(requrl, headers=header, verify=False)
+    clientTime = response.json()
+    return clientTime['response'][1]['time']
