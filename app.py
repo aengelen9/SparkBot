@@ -155,7 +155,7 @@ def sparkhook():
                         botAnswered = api.messages.create(roomId=SPACE_ID, markdown=str(macAddr))
 
 
-                        if imgText == '':
+                        if not macAddr:
                             answerString = 'No MAC address found.'
                             botAnswered = api.messages.create(roomId=SPACE_ID, markdown=answerString)
                         else:
