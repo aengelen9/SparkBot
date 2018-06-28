@@ -6,7 +6,7 @@ import csv
 import base64
 import re
 
-import dnac #DNA-C functions 
+import dnac #DNA-C functions
 
 import io
 #import pytesseract
@@ -22,7 +22,7 @@ app = Flask(__name__)
 
 
 #BOT_TOKEN = 'OTc5OGY3YjEtM2I4OC00ZjhiLTg5YjMtYzU1NTdkOGM4NTViMTg0ZDYxYzMtOTRm'
-BOT_TOKEN = 'OTc5OGY3YjEtM2I4OC00ZjhiLTg5YjMtYzU1NTdkOGM4NTViMTg0ZDYxYzMtOTRm' 
+BOT_TOKEN = 'OTc5OGY3YjEtM2I4OC00ZjhiLTg5YjMtYzU1NTdkOGM4NTViMTg0ZDYxYzMtOTRm'
 MY_TOKEN = 'Zjk5ODUzN2QtN2FlOS00ODQ0LWI0NTgtOWQ3MjY5MmU5ZmQ0NGZhNDY4ZTEtNTli'
 SPACE_ID = 'Y2lzY29zcGFyazovL3VzL1JPT00vZjUwNjZjZTAtZjYxMy0xMWU3LTkyYTgtYjNiNGFhZDUxNzIy'
 BROKERBOT_ID = 'Y2lzY29zcGFyazovL3VzL1BFT1BMRS8zMWJlZTdjZi1mNTlmLTRlYjgtYmY5Ny1jZjkxOWYxMjRhZDY'
@@ -41,7 +41,7 @@ api = CiscoSparkAPI(access_token=BOT_TOKEN)
 def setSparkHeader():
     sparkHeader = {'Authorization': "Bearer " + MY_TOKEN}
     return sparkHeader
-    
+
 
 def postSparkMessage(personId, message):
     message = {"toPersonId":personId,"text":message}
@@ -150,14 +150,17 @@ def sparkhook():
                         p = re.compile('((([0-9A-F]{2}[:-]){5}([0-9A-F]{2}))|([0-9A-F]{12}))', re.IGNORECASE)
                         #p = re.compile('(([0-9A-F]{2}[:-]?){5}([0-9A-F]{2}))', re.IGNORECASE)
 
-                        botAnswered = api.messages.create(roomId=SPACE_ID, markdown=imgText)
-                        
+                        #botAnswered = api.messages.create(roomId=SPACE_ID, markdown=imgText)
+                        macAddr = re.findall(p, imgText)
+                        botAnswered = api.messages.create(roomId=SPACE_ID, markdown=str(macAddr))
+
+
                         if imgText == '':
                             answerString = 'No MAC address found.'
                             botAnswered = api.messages.create(roomId=SPACE_ID, markdown=answerString)
                         else:
 
-                            macAddr = re.findall(p, imgText)
+
                             macAddr = macAddr[0][0] if macAddr else '' #Take first match
                             macAddr = re.sub('\W+', '', macAddr) #Remove special characters
                             macAddr = macAddr.lower() #Lowercase
@@ -174,7 +177,7 @@ def sparkhook():
                             connectedNetworkDeviceId = host[0]['connectedNetworkDeviceId']
                             connectedNetworkDeviceIpAddress = host[0]['connectedNetworkDeviceIpAddress']
                             connectedInterfaceName = host[0]['connectedInterfaceName']
-                        
+
                             connectedDevice = dnac.get_nw_device_by_id(cookie, connectedNetworkDeviceId)
 
                             deviceType = connectedDevice['type'] #Cisco Catalyst 9300 Switch
@@ -195,16 +198,16 @@ def sparkhook():
 
                         # print( type(img) ) # <class 'PIL.JpegImagePlugin.JpegImageFile'>
                         #imgText = pytesseract.image_to_string(img)
-                         
+
                         #image = types.Image(content=img)
 
                         #response = client.text_detection(image=image)
                         #text = response.text_annotations
 
 
-                          
+
                             botAnswered = api.messages.create(roomId=SPACE_ID, markdown=answerString)
-                                
+
 
 
                     # If the attached file is not a CSV
