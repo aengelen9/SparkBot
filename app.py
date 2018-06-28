@@ -145,6 +145,11 @@ def sparkhook():
                         encodedImgUtf8 = encodedImg.decode('utf-8')
 
                         imgText = postGoogleOCR(encodedImgUtf8)
+
+                        if 'textAnnotations' not in imgText:
+                            answerString = 'No MAC address found.'
+                            botAnswered = api.messages.create(roomId=SPACE_ID, markdown=answerString)
+
                         imgText = imgText['responses'][0]['textAnnotations'][0]['description']
 
                         p = re.compile('((([0-9A-F]{2}[:-]){5}([0-9A-F]{2}))|([0-9A-F]{12}))', re.IGNORECASE)
