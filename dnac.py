@@ -91,3 +91,13 @@ def getClientTime(cookie):
     response = requests.get(requrl, headers=header, verify=False)
     clientTime = response.json()
     return clientTime['response'][1]['time']
+
+def getClientHealth(cookie, macAddr, clientTime):
+    '''
+    Get Client Health
+    '''
+    requrl = URL + '/api/assurance/v1/host/' + macAddr + '?timestamp=' + clientTime
+    header = {'content-type': 'application/json', 'Cookie': cookie}
+    response = requests.get(requrl, headers=header, verify=False)
+    clientHealth = response.json()
+    return clientHealth['response'][0]

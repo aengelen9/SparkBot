@@ -160,8 +160,8 @@ def sparkhook():
 
                             #botAnswered = api.messages.create(roomId=SPACE_ID, markdown=imgText)
                             macAddr = re.findall(p, imgText)
-                            botAnswered = api.messages.create(roomId=SPACE_ID, markdown=str(type(macAddr)))
-                            botAnswered = api.messages.create(roomId=SPACE_ID, markdown=str(macAddr))
+                            #botAnswered = api.messages.create(roomId=SPACE_ID, markdown=str(type(macAddr)))
+                            #botAnswered = api.messages.create(roomId=SPACE_ID, markdown=str(macAddr))
 
 
                             macAddr = macAddr[0][0] if macAddr else '' #Take first match
@@ -187,7 +187,9 @@ def sparkhook():
                             deviceReachability = connectedDevice['reachabilityStatus']
 
                             clientTime = dnac.getClientTime(cookie)
-                            botAnswered = api.messages.create(roomId=SPACE_ID, markdown=str(clientTime))
+                            #botAnswered = api.messages.create(roomId=SPACE_ID, markdown=str(clientTime))
+                            clientHealth = dnac.getClientHealth(cookie, macAddr, clientTime)
+                            botAnswered = api.messages.create(roomId=SPACE_ID, markdown=str(clientHealth['location']))
 
                             answerString = 'Searching for host MAC address **' + macAddr + '**\n\n- Host IP: ' + hostIp
                             answerString = answerString + '\n- Host Type: ' + hostType
