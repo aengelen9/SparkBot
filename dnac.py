@@ -96,7 +96,7 @@ def getClientHealth(cookie, macAddr, clientTime):
     '''
     Get Client Health
     '''
-    requrl = URL + '/api/assurance/v1/host/' + macAddr + '?timestamp=' + clientTime
+    requrl = URL + '/api/assurance/v1/host/' + macAddr + '?timestamp=' + str(clientTime)
     header = {'content-type': 'application/json', 'Cookie': cookie}
     response = requests.get(requrl, headers=header, verify=False)
     clientHealth = response.json()
