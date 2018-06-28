@@ -152,7 +152,8 @@ def sparkhook():
 
                         #botAnswered = api.messages.create(roomId=SPACE_ID, markdown=imgText)
                         macAddr = re.findall(p, imgText)
-                        botAnswered = api.messages.create(roomId=SPACE_ID, markdown=str(macAddr))
+                        botAnswered = api.messages.create(roomId=SPACE_ID, markdown=str(type(imgText)))
+                        botAnswered = api.messages.create(roomId=SPACE_ID, markdown=str(timgText))
 
 
                         if not macAddr:
