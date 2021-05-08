@@ -7,7 +7,7 @@ ciscospark==0.1.2
 ciscosparkapi==0.8.3
 click==6.7
 enum34==1.1.6
-eventlet==0.22.0
+eventlet==0.31.0
 Flask==0.12.2
 flask-heroku==0.1.9
 Flask-SocketIO==2.9.3
