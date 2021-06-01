@@ -43,7 +43,7 @@ rsa==3.4.2
 six==1.11.0
 SQLAlchemy==1.2.2
 tornado==4.5.3
-urllib3==1.22
+urllib3==1.26.5
 wcwidth==0.1.7
 Werkzeug==0.13
 wit==4.3.0
