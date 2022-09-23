@@ -26,7 +26,7 @@ packaging==16.8
 pandas==0.22.0
 Pillow==5.1.0
 prompt-toolkit==1.0.15
-protobuf==3.5.2.post1
+protobuf==3.18.3
 psycopg2==2.7.4
 pyasn1==0.4.2
 pyasn1-modules==0.2.1
